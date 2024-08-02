@@ -77,7 +77,7 @@ const PokemonDetails: React.FC<Props> = ({ pokemonId }) => {
   useEffect(() => {
     const loadPokemonDetails = async () => {
       setLoading(true);
-      await delay(1000);
+      // await delay(1000);
       const cachedItem = sessionStorage.getItem(`pokemon-${pokemonId}`);
       if (cachedItem) {
         const { data, timestamp } = JSON.parse(cachedItem) as CacheItem;
@@ -90,24 +90,11 @@ const PokemonDetails: React.FC<Props> = ({ pokemonId }) => {
         cacheData(pokemonId, pokemonData);
       }
       cleanupCache();
-      await delay(1000);
+      await delay(500);
       setLoading(false);
     };
     loadPokemonDetails();
   }, [pokemonId, cleanupCache]);
-
-  // if (!pokemon) {
-  //   return (
-  //     <Card className="hidden h-full p-10">
-  //       <CardHeader className="hidden">
-  //         <CardTitle className="hidden">Pokemon</CardTitle>
-  //       </CardHeader>
-  //       <CardContent className="flex h-full p-10 justify-center items-center">
-  //         <PuffLoader loading={loading} />
-  //       </CardContent>
-  //     </Card>
-  //   );
-  // }
 
   if (!pokemon || loading) {
     return (
@@ -179,16 +166,7 @@ const PokemonDetails: React.FC<Props> = ({ pokemonId }) => {
   };
 
   return (
-    <motion.div
-      // initial={{ opacity: 0, y: 400 }}
-      // animate={{ opacity: 1, y: 0 }}
-      // transition={{ duration: 1.2 }}
-      // initial="hidden"
-      // animate={loading ? "hidden" : "visible"}
-      // variants={variants}
-      // transition={{ duration: 0.8, ease: "easeInOut" }}
-      className=""
-    >
+    <div className="">
       <Card className="h-full xl:h-screen select-none">
         <CardHeader className="hidden">
           <CardTitle className="hidden">{pokemon.name}</CardTitle>
@@ -201,6 +179,8 @@ const PokemonDetails: React.FC<Props> = ({ pokemonId }) => {
             className="flex flex-col items-center justify-center gap-0"
           >
             <Image
+              unoptimized={true}
+              priority={true}
               src={pokemon.sprites.front_default}
               alt={pokemon.name}
               width={150}
@@ -303,7 +283,7 @@ const PokemonDetails: React.FC<Props> = ({ pokemonId }) => {
           </motion.div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 };
 
